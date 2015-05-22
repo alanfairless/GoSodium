@@ -2,8 +2,6 @@ package sodium
 
 import "unsafe"
 
-// #cgo CFLAGS: -I/usr/local/include/sodium
-// #cgo LDFLAGS: /usr/local/lib/libsodium.a
 // #include <stdio.h>
 // #include <sodium.h>
 //

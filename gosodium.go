@@ -5,7 +5,7 @@
 // the libsodium interface.
 package gosodium
 
-import "github.com/neuegram/GoSodium/sodium"
+import "github.com/redragonx/GoSodium/sodium"
 import "fmt"
 
 type PublicKey []byte

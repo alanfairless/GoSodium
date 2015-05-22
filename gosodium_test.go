@@ -2,7 +2,7 @@ package gosodium
 
 import "testing"
 import "bytes"
-import "github.com/neuegram/GoSodium/sodium"
+import "github.com/redragonx/GoSodium/sodium"
 
 // TestKeyGeneration verifies only that the public/secret keys are not the same (ie, not all zeros)
 // and that they can be successfully passed to the lower-level functions. No other checks are made.
