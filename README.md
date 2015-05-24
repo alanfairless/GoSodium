@@ -1,9 +1,9 @@
 # Note from RedragonX
 
-This is a rework of
+This is a complete rework of
 [jasonmccampbell](https://github.com/jasonmccampbell/GoSodium)'s GoSodium fork.
 The original coder seems to be MIA. I've changed a lot already like the folder
-management, better, testing and building environment scripts. This fork will one
+management, better testing, and building environment scripts. This fork will one
 day hopefully replace his fork to be the official GoSodium library.
 
 # Introduction
