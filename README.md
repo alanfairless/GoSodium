@@ -69,4 +69,4 @@ The scripts use a custom libsodium location, currently works on Arch Linux.
 Please change the locations if needed.
 
 # Contact
-Questions? Comments? Requests? Complaints? Feel free to contact me here or Twitter [https://twitter.com/redragonx](@redragonx).
+Questions? Comments? Requests? Complaints? Feel free to contact me here or Twitter [@RedragonX](https://twitter.com/redragonx)
