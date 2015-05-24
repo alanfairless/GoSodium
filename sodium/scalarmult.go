@@ -3,6 +3,8 @@ package sodium
 // #include <stdio.h>
 // #include <sodium.h>
 import "C"
+import "github.com/redragonx/GoSodium/sodium/cryptobox"
+import "github.com/redragonx/GoSodium/sodium/support"
 
 func ScalarMultBytes() int {
 	return int(C.crypto_scalarmult_bytes())
@@ -13,8 +15,8 @@ func ScalarMultScalarBytes() int {
 }
 
 func ScalarMultBase(pkOut []byte, skIn []byte) int {
-	checkSize(pkOut, BoxPublicKeyBytes(), "public key")
-	checkSize(skIn, BoxSecretKeyBytes(), "secret key")
+	support.CheckSize(pkOut, cryptobox.BoxPublicKeyBytes(), "public key")
+	support.CheckSize(skIn, cryptobox.BoxSecretKeyBytes(), "secret key")
 
 	return int(C.crypto_scalarmult_base((*C.uchar)(&pkOut[0]), (*C.uchar)(&skIn[0])))
 }

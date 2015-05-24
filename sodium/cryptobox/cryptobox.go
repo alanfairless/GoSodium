@@ -1,6 +1,6 @@
-package sodium
+package cryptobox
 
-import "fmt"
+import "github.com/redragonx/GoSodium/sodium/support"
 
 // #include <stdio.h>
 // #include <sodium.h>
@@ -48,17 +48,17 @@ func BoxZeroBytes() int {
 }
 
 func BoxSeedKeyPair(pkOut []byte, skOut []byte, seed []byte) int {
-	checkSize(pkOut, BoxPublicKeyBytes(), "public key")
-	checkSize(skOut, BoxSecretKeyBytes(), "secret key")
-	checkSize(seed, BoxSeedBytes(), "seed")
+	support.CheckSize(pkOut, BoxPublicKeyBytes(), "public key")
+	support.CheckSize(skOut, BoxSecretKeyBytes(), "secret key")
+	support.CheckSize(seed, BoxSeedBytes(), "seed")
 
 	return int(C.crypto_box_seed_keypair((*C.uchar)(&pkOut[0]), (*C.uchar)(&skOut[0]), (*C.uchar)(&seed[0])))
 }
 
 // BoxKeyPair generates a new public/secret key pair, returning them in the passed buffers.
 func BoxKeyPair(pkOut, skOut []byte) int {
-	checkSize(pkOut, BoxPublicKeyBytes(), "public key")
-	checkSize(skOut, BoxSecretKeyBytes(), "secret key")
+	support.CheckSize(pkOut, BoxPublicKeyBytes(), "public key")
+	support.CheckSize(skOut, BoxSecretKeyBytes(), "secret key")
 
 	return int(C.crypto_box_keypair((*C.uchar)(&pkOut[0]), (*C.uchar)(&skOut[0])))
 }
@@ -72,17 +72,17 @@ func BoxKeyPair(pkOut, skOut []byte) int {
 //
 // Returns 0 on sucess, non-zero result on error.
 func BoxBeforeNm(keyOut []byte, pk, sk []byte) int {
-	checkSize(keyOut, BoxBeforeNmBytes(), "key output")
-	checkSize(pk, BoxPublicKeyBytes(), "public key")
-	checkSize(sk, BoxSecretKeyBytes(), "secret key")
+	support.CheckSize(keyOut, BoxBeforeNmBytes(), "key output")
+	support.CheckSize(pk, BoxPublicKeyBytes(), "public key")
+	support.CheckSize(sk, BoxSecretKeyBytes(), "secret key")
 
 	return int(C.crypto_box_beforenm((*C.uchar)(&keyOut[0]), (*C.uchar)(&pk[0]), (*C.uchar)(&sk[0])))
 }
 
 func BoxAfterNm(cypherTextOut []byte, message []byte, nonce, key []byte) int {
-	checkSize(cypherTextOut, len(message), "cypher text output")
-	checkSize(nonce, BoxNonceBytes(), "nonce")
-	checkSize(key, BoxBeforeNmBytes(), "intermediate key")
+	support.CheckSize(cypherTextOut, len(message), "cypher text output")
+	support.CheckSize(nonce, BoxNonceBytes(), "nonce")
+	support.CheckSize(key, BoxBeforeNmBytes(), "intermediate key")
 
 	return int(C.crypto_box_afternm((*C.uchar)(&cypherTextOut[0]),
 		(*C.uchar)(&message[0]), (C.ulonglong)(len(message)),
@@ -91,9 +91,9 @@ func BoxAfterNm(cypherTextOut []byte, message []byte, nonce, key []byte) int {
 }
 
 func BoxOpenAfterNm(messageOut []byte, cypherText []byte, nonce, key []byte) int {
-	checkSize(messageOut, len(cypherText), "message output")
-	checkSize(nonce, BoxNonceBytes(), "nonce")
-	checkSize(key, BoxBeforeNmBytes(), "key")
+	support.CheckSize(messageOut, len(cypherText), "message output")
+	support.CheckSize(nonce, BoxNonceBytes(), "nonce")
+	support.CheckSize(key, BoxBeforeNmBytes(), "key")
 
 	return int(C.crypto_box_open_afternm(
 		(*C.uchar)(&messageOut[0]),
@@ -103,10 +103,10 @@ func BoxOpenAfterNm(messageOut []byte, cypherText []byte, nonce, key []byte) int
 }
 
 func Box(cypherTextOut []byte, message []byte, nonce, pk, sk []byte) int {
-	checkSize(cypherTextOut, len(message), "cypher text output")
-	checkSize(nonce, BoxNonceBytes(), "nonce")
-	checkSize(pk, BoxPublicKeyBytes(), "public key")
-	checkSize(sk, BoxSecretKeyBytes(), "secret key")
+	support.CheckSize(cypherTextOut, len(message), "cypher text output")
+	support.CheckSize(nonce, BoxNonceBytes(), "nonce")
+	support.CheckSize(pk, BoxPublicKeyBytes(), "public key")
+	support.CheckSize(sk, BoxSecretKeyBytes(), "secret key")
 
 	return int(C.crypto_box((*C.uchar)(&cypherTextOut[0]),
 		(*C.uchar)(&message[0]), (C.ulonglong)(len(message)),
@@ -116,10 +116,10 @@ func Box(cypherTextOut []byte, message []byte, nonce, pk, sk []byte) int {
 }
 
 func BoxOpen(messageOut []byte, cypherText []byte, nonce, pk, sk []byte) int {
-	checkSize(messageOut, len(cypherText), "message output")
-	checkSize(nonce, BoxNonceBytes(), "nonce")
-	checkSize(pk, BoxPublicKeyBytes(), "public key")
-	checkSize(sk, BoxSecretKeyBytes(), "secret key")
+	support.CheckSize(messageOut, len(cypherText), "message output")
+	support.CheckSize(nonce, BoxNonceBytes(), "nonce")
+	support.CheckSize(pk, BoxPublicKeyBytes(), "public key")
+	support.CheckSize(sk, BoxSecretKeyBytes(), "secret key")
 
 	return int(C.crypto_box_open(
 		(*C.uchar)(&messageOut[0]),
@@ -130,10 +130,10 @@ func BoxOpen(messageOut []byte, cypherText []byte, nonce, pk, sk []byte) int {
 }
 
 func BoxEasy(cypherTextOut []byte, message []byte, nonce, pk, sk []byte) int {
-	checkSize(cypherTextOut, BoxMacBytes()+len(message), "cypher text output")
-	checkSize(nonce, BoxNonceBytes(), "nonce")
-	checkSize(pk, BoxPublicKeyBytes(), "public key")
-	checkSize(sk, BoxSecretKeyBytes(), "secret key")
+	support.CheckSize(cypherTextOut, BoxMacBytes()+len(message), "cypher text output")
+	support.CheckSize(nonce, BoxNonceBytes(), "nonce")
+	support.CheckSize(pk, BoxPublicKeyBytes(), "public key")
+	support.CheckSize(sk, BoxSecretKeyBytes(), "secret key")
 
 	return int(C.crypto_box_easy((*C.uchar)(&cypherTextOut[0]),
 		(*C.uchar)(&message[0]), (C.ulonglong)(len(message)),
@@ -143,10 +143,10 @@ func BoxEasy(cypherTextOut []byte, message []byte, nonce, pk, sk []byte) int {
 }
 
 func BoxOpenEasy(messageOut []byte, cypherText []byte, nonce, pk, sk []byte) int {
-	checkSize(messageOut, BoxMacBytes()+len(cypherText), "message output")
-	checkSize(nonce, BoxNonceBytes(), "nonce")
-	checkSize(pk, BoxPublicKeyBytes(), "public key")
-	checkSize(sk, BoxSecretKeyBytes(), "secret key")
+	support.CheckSize(messageOut, BoxMacBytes()+len(cypherText), "message output")
+	support.CheckSize(nonce, BoxNonceBytes(), "nonce")
+	support.CheckSize(pk, BoxPublicKeyBytes(), "public key")
+	support.CheckSize(sk, BoxSecretKeyBytes(), "secret key")
 
 	return int(C.crypto_box_open_easy(
 		(*C.uchar)(&messageOut[0]),
@@ -156,13 +156,3 @@ func BoxOpenEasy(messageOut []byte, cypherText []byte, nonce, pk, sk []byte) int
 		(*C.uchar)(&sk[0])))
 }
 
-//
-// Internal support functions
-//
-
-// checkSize verifies the expected size of an input or output byte array.
-func checkSize(buf []byte, expected int, descrip string) {
-	if len(buf) != expected {
-		panic(fmt.Sprintf("Incorrect %s buffer size, expected (%d), got (%d).", descrip, expected, len(buf)))
-	}
-}

@@ -1,6 +1,7 @@
 package sodium
 
 import "fmt"
+import "github.com/redragonx/GoSodium/sodium/support"
 
 
 // #include <stdio.h>
@@ -57,8 +58,8 @@ func GenericHash(hashOut []byte, message []byte, key []byte) int {
 func GenericHashSaltPersonal(hashOut []byte, message []byte, key []byte, salt []byte, personal []byte) int {
 	checkHashOutSize(hashOut)
 	checkKeySize(key)
-	checkSize(salt, GenericHashSaltBytes(), "salt")
-	checkSize(personal, GenericHashPersonalBytes(), "personal")
+	support.CheckSize(salt, GenericHashSaltBytes(), "salt")
+	support.CheckSize(personal, GenericHashPersonalBytes(), "personal")
 	if key == []byte(nil) {
 		return int(C.crypto_generichash_blake2b_salt_personal(
 			(*C.uchar)(&hashOut[0]), (C.size_t)(len(hashOut)),

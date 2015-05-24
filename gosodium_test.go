@@ -13,8 +13,8 @@ func TestKeyGeneration(t *testing.T) {
 	pk1, sk1 := NewKeyPair()
 	nonce := NewBoxNonce()
 
-	if bytes.equal(pk1, sk1) {
-		t.Fatail("Somehow pk1 and sk1 are the same?!")
+	if bytes.Equal(pk1, sk1) {
+		t.Fatal("Somehow pk1 and sk1 are the same?!")
 	}
 
 	sodium.MemZero(msg[:sodium.BoxZeroBytes()])

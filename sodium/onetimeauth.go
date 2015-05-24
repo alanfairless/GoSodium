@@ -1,6 +1,7 @@
 package sodium
 
 import "unsafe"
+import "github.com/redragonx/GoSodium/sodium/support"
 
 // #include <stdio.h>
 // #include <sodium.h>
@@ -36,8 +37,8 @@ func OneTimeAuthKeyBytes() int {
 // Returns: 0
 // TODO: Can this ever return non-zero? If not should not return a value.
 func OneTimeAuth(macOut []byte, message []byte, key []byte) int {
-	checkSize(macOut, OneTimeAuthBytes(), "MAC output buffer")
-	checkSize(key, OneTimeAuthKeyBytes(), "key")
+	support.CheckSize(macOut, OneTimeAuthBytes(), "MAC output buffer")
+	support.CheckSize(key, OneTimeAuthKeyBytes(), "key")
 
 	return int(C.crypto_onetimeauth(
 		(*C.uchar)(&macOut[0]),
@@ -49,8 +50,8 @@ func OneTimeAuth(macOut []byte, message []byte, key []byte) int {
 //
 // Returns: 0 if the MAC authenticates the message, -1 if not.
 func OneTimeAuthVerify(mac, message, key []byte) int {
-	checkSize(mac, OneTimeAuthBytes(), "MAC")
-	checkSize(key, OneTimeAuthKeyBytes(), "key")
+	support.CheckSize(mac, OneTimeAuthBytes(), "MAC")
+	support.CheckSize(key, OneTimeAuthKeyBytes(), "key")
 
 	return int(C.crypto_onetimeauth_verify(
 		(*C.uchar)(&mac[0]),
@@ -79,7 +80,7 @@ func OneTimeAuthUpdate(state OneTimeAuthState, inBuf []byte) {
 // state is deallocated and may never be accessed again; this function must be called
 // exactly once for each call to OneTimeAuthInit to avoid leaking memory.
 func OneTimeAuthFinal(state OneTimeAuthState, macOut []byte) int {
-	checkSize(macOut, OneTimeAuthBytes(), "MAC output buffer")
+	support.CheckSize(macOut, OneTimeAuthBytes(), "MAC output buffer")
 
 	r := int(C.crypto_onetimeauth_final((*C.crypto_onetimeauth_state)(state),
 		(*C.uchar)(&macOut[0])))

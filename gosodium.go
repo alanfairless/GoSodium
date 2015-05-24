@@ -6,6 +6,7 @@
 package gosodium
 
 import "github.com/redragonx/GoSodium/sodium"
+import "github.com/redragonx/GoSodium/sodium/cryptobox"
 import "fmt"
 
 type PublicKey []byte
@@ -14,11 +15,11 @@ type SymmetricKey []byte
 type Nonce []byte
 
 func AllocPublicKey() PublicKey {
-	return make([]byte, sodium.BoxPublicKeyBytes())
+	return make([]byte, cryptobox.BoxPublicKeyBytes())
 }
 
 func AllocSecretKey() SecretKey {
-	return make([]byte, sodium.BoxSecretKeyBytes())
+	return make([]byte, cryptobox.BoxSecretKeyBytes())
 }
 
 func AllocSymmetricKey() SymmetricKey {
@@ -28,7 +29,7 @@ func AllocSymmetricKey() SymmetricKey {
 func NewKeyPair() (PublicKey, SecretKey) {
 	pk := AllocPublicKey()
 	sk := AllocSecretKey()
-	r := sodium.BoxKeyPair(pk, sk)
+	r := cryptobox.BoxKeyPair(pk, sk)
 	if r != 0 {
 		panic(fmt.Sprintf("Key pair generation failed with result %d, expected 0.", r))
 	}
@@ -36,7 +37,8 @@ func NewKeyPair() (PublicKey, SecretKey) {
 }
 
 func NewBoxNonce() Nonce {
-	nonce := make([]byte, sodium.BoxNonceBytes())
+	nonce := make([]byte, cryptobox.BoxNonceBytes())
 	sodium.RandomBytes(nonce)
+
 	return nonce
 }

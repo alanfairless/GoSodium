@@ -1,6 +1,7 @@
 package sodium
 
 //import "fmt"
+import "github.com/redragonx/GoSodium/sodium/support"
 
 // #include <stdio.h>
 // #include <sodium.h>
@@ -35,9 +36,9 @@ func SecretBoxMacBytes() int {
 //
 // Returns: 0 on success, non-zero on failure.
 func SecretBox(cypherTextOut, message, nonce, key []byte) int {
-	checkSize(cypherTextOut, len(message), "cypher text output")
-	checkSize(nonce, SecretBoxNonceBytes(), "nonce")
-	checkSize(key, SecretBoxKeyBytes(), "key")
+	support.CheckSize(cypherTextOut, len(message), "cypher text output")
+	support.CheckSize(nonce, SecretBoxNonceBytes(), "nonce")
+	support.CheckSize(key, SecretBoxKeyBytes(), "key")
 
 	return int(C.crypto_secretbox(
 		(*C.uchar)(&cypherTextOut[0]),
@@ -53,9 +54,9 @@ func SecretBox(cypherTextOut, message, nonce, key []byte) int {
 //
 // Returns: 0 on success, non-zero on failure
 func SecretBoxOpen(messageOut, cypherText, nonce, key []byte) int {
-	checkSize(messageOut, len(cypherText), "message output")
-	checkSize(nonce, SecretBoxNonceBytes(), "nonce")
-	checkSize(key, SecretBoxKeyBytes(), "key")
+	support.CheckSize(messageOut, len(cypherText), "message output")
+	support.CheckSize(nonce, SecretBoxNonceBytes(), "nonce")
+	support.CheckSize(key, SecretBoxKeyBytes(), "key")
 
 	return int(C.crypto_secretbox_open(
 		(*C.uchar)(&messageOut[0]),

@@ -1,4 +1,4 @@
-package sodium
+package cryptobox
 
 import "testing"
 import "bytes"
@@ -17,18 +17,18 @@ func tryBoxKeyPair(pkOut, skOut []byte) bool {
     return status
 }
 
-    
+
 func TestBoxKeyPair(t *testing.T) {
     r := tryBoxKeyPair(make([]byte, 4), make([]byte, BoxSecretKeyBytes()))
     if r {
         t.Fatal("BoxKeyPair failed to detect too-short public key buffer")
     }
-    
+
     r = tryBoxKeyPair(make([]byte, BoxPublicKeyBytes()), make([]byte, 5))
     if r {
         t.Fatal("BoxKeyPair failed to detect too-short secret key buffer")
     }
-    
+
     r = tryBoxKeyPair(make([]byte, BoxPublicKeyBytes()), make([]byte, BoxSecretKeyBytes()))
     if !r {
         t.Fatal("BoxKeyPair failed when it should have passed.")
@@ -51,8 +51,8 @@ func TestCryptoBox(t *testing.T) {
     sk2 := make([]byte, BoxSecretKeyBytes())
     nonce := make([]byte, BoxNonceBytes())
     key := make([]byte, BoxBeforeNmBytes())
-    
-    BoxKeyPair(pk1, sk1);
+
+	BoxKeyPair(pk1, sk1);
     BoxKeyPair(pk2, sk2);
     for _, size := range messageSizes {
         t.Log("Running message size ", size)
@@ -78,8 +78,8 @@ func TestCryptoBox(t *testing.T) {
             t.Fatalf("Byte arrays are not the same, starting bytes are %x, %x, %x, %x vs %x, %x, %x, %x",
                 result[0], result[1], result[2], result[3], msg[0], msg[1], msg[2], msg[3])
         }
-        
-        // Re-try using Before/After functions for pre-computing the shared key.
+
+		// Re-try using Before/After functions for pre-computing the shared key.
         r1 = BoxBeforeNm(key, pk1, sk2)
         if r1 != 0 {
             t.Fatal("Crypto box before nm failed, got ", r1, " expected 0")
@@ -103,6 +103,3 @@ func TestCryptoBox(t *testing.T) {
     }
     t.Log("TestBox passed")
 }
-
-
-
