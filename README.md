@@ -1,21 +1,29 @@
 # Note from RedragonX
 
-This is a rework of [jasonmccampbell](https://github.com/jasonmccampbell/GoSodium). The original coder seems to be MIA. I've changed a lot already like the folder management, better, testing and building environment scripts
+This is a rework of
+[jasonmccampbell](https://github.com/jasonmccampbell/GoSodium)'s GoSodium fork.
+The original coder seems to be MIA. I've changed a lot already like the folder
+management, better, testing and building environment scripts. This fork will one
+day hopefully replace his fork to be the official GoSodium library.
 
 # Introduction
-GoSodium is a (work-in-progress) [Go language](golang.org) binding for the [LibSodium](https://github.com/jedisct1/libsodium) cryptography 
-library. LibSodium is a cross-platform port of the [NaCL library](http://nacl.cr.yp.to/) published by Dan Bernstein and
-company implementing the 25519 elliptic curve. These cryptographic methods, and these libraries, are highly regarded as
-fast, secure, and free of governmental influences.
+GoSodium is a (work-in-progress) [Go language](golang.org) binding for the
+[LibSodium](https://github.com/jedisct1/libsodium) cryptography library.
+LibSodium is a cross-platform port of the [NaCL library](http://nacl.cr.yp.to/)
+published by Dan Bernstein and company implementing the 25519 elliptic curve.
+These cryptographic methods, and these libraries, are highly regarded as fast,
+secure, and free of governmental influences.
 
-This package is primarily for personal use as an excuse to learn Go and get more familiar with cryptography and is
-very much a work-in-progress. If it is useful to others, please feel free to use it, copy it, or contribute to
-it. If this is a duplicate of other work, please let me know as I am happy to contribute to other projects to avoid
-redundant efforts.
+This package is primarily for personal use as an excuse to learn Go and get more
+familiar with cryptography and is very much a work-in-progress. If it is useful
+to others, please feel free to use it, copy it, or contribute to it. If this is
+a duplicate of other work, please let me know as I am happy to contribute to
+other projects to avoid redundant efforts.
 
 # Status
-I am (slowly) wrapping parts of the library as I have time / need so many parts are yet-unwrapped. This table provides
-a summary of the functionality in each module of the LibSodium library and whether they are included.
+I am (slowly) wrapping parts of the library as I have time / need so many parts
+are yet-unwrapped. This table provides a summary of the functionality in each
+module of the LibSodium library and whether they are included.
 
 Module             | Wrap status | Test coverage | Function
 -----------------  | ----------- | ------------- | --------------------------------
@@ -34,13 +42,14 @@ sodium             | Partially   | Partial       | Initialization and utility me
 
 Definitions:
 
-* Key Pair: A pair of keys comprised of one public key and one secret key. For example, the sender's secret key and
-  the recipient's public key, or the sender's public key and the recipient's private key.
-* Shared key: A single key which is known to both the sender and recipient(s). In LibSodium it is common to generate
-  a shared key from a key pair above. The keys have the property that the symmetric key can be generated from each
-  half of a key pair. That is, Alice's public key plus Bob's secret key can be combined to generate the same key as
-  Bob's public key and Alice's private key. 
-
+* Key Pair: A pair of keys comprised of one public key and one secret key. For
+  example, the sender's secret key and the recipient's public key, or the
+  sender's public key and the recipient's private key.
+* Shared key: A single key which is known to both the sender and recipient(s).
+  In LibSodium it is common to generate a shared key from a key pair above. The
+  keys have the property that the symmetric key can be generated from each half
+  of a key pair. That is, Alice's public key plus Bob's secret key can be
+  combined to generate the same key as Bob's public key and Alice's private key. 
 
 
 # Building and testing GoSodium
@@ -60,6 +69,4 @@ The scripts use a custom libsodium location, currently works on Arch Linux.
 Please change the locations if needed.
 
 # Contact
-Questions? Comments? Requests? Complaints? Feel free to contact me here or Twitter (@redragonx).
-
-
+Questions? Comments? Requests? Complaints? Feel free to contact me here or Twitter [https://twitter.com/redragonx](@redragonx).
