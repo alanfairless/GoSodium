@@ -1,3 +1,6 @@
+# Note from RedragonX
+
+This is a rework of [jasonmccampbell](https://github.com/jasonmccampbell/GoSodium). The original coder seems to be MIA. I've changed a lot already like the folder management, better, testing and building environment scripts
 
 # Introduction
 GoSodium is a (work-in-progress) [Go language](golang.org) binding for the [LibSodium](https://github.com/jedisct1/libsodium) cryptography 
@@ -16,16 +19,16 @@ a summary of the functionality in each module of the LibSodium library and wheth
 
 Module             | Wrap status | Test coverage | Function
 -----------------  | ----------- | ------------- | --------------------------------
-crypto_auth        | Not wrapped | N/A           | Generates a MAC for a given message and secret key using SHA-series hashes (key may be used across multiple messages)
-crypto_box         | Wrapped     | Yes           | Encrypts and authenticates a message using a key pair and nonce
-crypto_core        | Not wrapped | N/A           | Core encryption algorithms used by other modules
-crypto_generichash | Partially   | N/A           | Cryptographically secure generic hash function
-crypto_hash        | Not wrapped | N/A           | Hash function based on SHA512 algorithm
-crypto_onetimeauth | Wrapped     | Yes           | Generates a MAC for a given message and shared key using Poly1305 algorithm (key may NOT be reused across messages)
-crypto_scalarmult  | Partially   | N/A           | Compute the public key given a secret key previously generated with crypto_box_keypair
-crypto_secret_box  | Wrapped     | Partial       | Encrypts and authenticates a message using a shared key and nonce
-crypto_sign        | Wrapped     | N/A           | Seals and verifies a message using a key pair
-crypto_streaming   | Not wrapped | N/A           | Generates a randomized stream of bits to be XOR'd with a message
+cryptoauth        | Not wrapped | N/A           | Generates a MAC for a given message and secret key using SHA-series hashes (key may be used across multiple messages)
+cryptobox         | Wrapped     | Yes           | Encrypts and authenticates a message using a key pair and nonce
+cryptocore        | Not wrapped | N/A           | Core encryption algorithms used by other modules
+cryptogenerichash | Partially   | N/A           | Cryptographically secure generic hash function
+cryptohash        | Not wrapped | N/A           | Hash function based on SHA512 algorithm
+cryptoonetimeauth | Wrapped     | Yes           | Generates a MAC for a given message and shared key using Poly1305 algorithm (key may NOT be reused across messages)
+cryptoscalarmult  | Partially   | N/A           | Compute the public key given a secret key previously generated with crypto_box_keypair
+cryptosecret_box  | Wrapped     | Partial       | Encrypts and authenticates a message using a shared key and nonce
+cryptosign        | Wrapped     | N/A           | Seals and verifies a message using a key pair
+cryptostreaming   | Not wrapped | N/A           | Generates a randomized stream of bits to be XOR'd with a message
 randombytes        | Wrapped     | Yes           | Fills a byte array with cryptographic-quality random values
 sodium             | Partially   | Partial       | Initialization and utility methods
 
@@ -39,36 +42,24 @@ Definitions:
   Bob's public key and Alice's private key. 
 
 
-# Getting started on Nitrous.io
-One quick way to get started playing with this package is on [Nitrous.io](nitrous.io). This is one of several cloud-based IDEs that also
-provide virtual machines to get started with. The VMs seem to be decently performant and the 'parts' utility is a nice way
-to quickly bootstrap an environment with Go and LibSodium.
-
-Once you have a machine set up:
-
-    parts install go
-    parts install libsodium
-    go get github.com/neuegram/GoSodium
-
-Installing libsodium puts it in ~/.parts/packages/libsodium-0.6.0. This is the path that is hardcoded into
-the remaining .go files. 
-
-*Note:* The recipes for Go 1.3 and LibSodium are currently pending PRs (#161, 162) to the Nitrous.io parts GitHub
-repository (https://github.com/nitrous-io/autoparts/pulls). You will need to explicitly pull these branches until the
-changes have been merged.
-
 
 # Building and testing GoSodium
-Once you have a working environment, go to your Go 'src' directory and run the following commands:
+Once you have a working golang environment, go to your Go 'src' directory and run the following commands:
 ```
-go install github.com/neuegram/GoSodium/sodium
-go test github.com/neuegram/GoSodium/sodium
-go install github.com/neuegram/GoSodium
+./test.sh
 ```
 
-If all works as expected, the tests should pass for 'sodium' and everything should be ready for use.
+If all works as expected, the tests should pass for all packages in the sodium folder and everything should be ready for use.
+
+To build into your main pkg folder, run this command:
+```
+./build.sh
+```
+
+The scripts use a custom libsodium location, currently works on Arch Linux.
+Please change the locations if needed.
 
 # Contact
-Questions? Comments? Requests? Complaints? Feel free to contact me here or via [Google+](https://plus.google.com/+JasonMcCampbell/posts) or Twitter (@jasonmccampbell).
+Questions? Comments? Requests? Complaints? Feel free to contact me here or Twitter (@redragonx).
 
 

@@ -1,9 +1,8 @@
 package cryptosign
 
-import (
-	"bytes"
-	"testing"
-)
+import "bytes"
+import "testing"
+import "github.com/redragonx/GoSodium/sodium/randombytes"
 
 func TestSignAndVerify(t *testing.T) {
 
@@ -27,7 +26,7 @@ func TestSignAndVerify(t *testing.T) {
 	for i := 0; i < len(messageSizes); i++ {
 		// new message
 		msg := make([]byte, messageSizes[i])
-		RandomBytes(msg)
+		randombytes.RandomBytes(msg)
 
 		// sign message
 		signed := make([]byte, len(msg)+SignBytes())

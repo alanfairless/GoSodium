@@ -3,6 +3,8 @@ package cryptobox
 import "testing"
 import "bytes"
 import "fmt"
+import "github.com/redragonx/GoSodium/sodium"
+import "github.com/redragonx/GoSodium/sodium/randombytes"
 
 
 func tryBoxKeyPair(pkOut, skOut []byte) bool {
@@ -61,9 +63,9 @@ func TestCryptoBox(t *testing.T) {
         msg := msgBuf[:allocSize]
         ct := cypherBuf[:allocSize]
         result := resultBuf[:allocSize]
-        MemZero(msg[:BoxZeroBytes()])
-        RandomBytes(msg[BoxZeroBytes():]) // Leave first MacBytes() as zeros.
-        RandomBytes(nonce)
+        sodium.MemZero(msg[:BoxZeroBytes()])
+        randombytes.RandomBytes(msg[BoxZeroBytes():]) // Leave first MacBytes() as zeros.
+        randombytes.RandomBytes(nonce)
 
         // Basic coverage of standard box/open functions.
         r1 := Box(ct, msg, nonce, pk1, sk2)

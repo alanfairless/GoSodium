@@ -2,6 +2,7 @@ package sodium
 
 import "bytes"
 import "testing"
+import "github.com/redragonx/GoSodium/sodium/randombytes"
 
 func TestRandomBytes(t *testing.T) {
     Init()
@@ -14,7 +15,7 @@ func TestRandomBytes(t *testing.T) {
         if !bytes.Equal(buf1, buf2) {
             t.Fatal("buf1 and buf2 aren't zero'd.")
         }
-        RandomBytes(buf1)
+        randombytes.RandomBytes(buf1)
         if bytes.Equal(buf1, buf2) {
             t.Fatal("buf1 and buf2 are still the same.")
         }
@@ -22,7 +23,7 @@ func TestRandomBytes(t *testing.T) {
         if !bytes.Equal(buf1, buf2) {
             t.Fatal("Copy failed, arrays aren't the same.")
         }
-        RandomBytes(buf2)
+        randombytes.RandomBytes(buf2)
         if bytes.Equal(buf1, buf2) {
             t.Fatal("Second call to RandomBytes failed.")
         }

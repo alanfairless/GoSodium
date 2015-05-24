@@ -4,6 +4,7 @@ package cryptosign
 // #include <sodium.h>
 import "C"
 import "github.com/redragonx/GoSodium/sodium/support"
+import "github.com/redragonx/GoSodium/sodium/scalarmult"
 
 func SignBytes() int {
 	return int(C.crypto_sign_bytes())
@@ -56,7 +57,7 @@ func SignOpen(messageOut []byte, sealedMessage []byte, pk []byte) int {
 }
 
 func SignEd25519PKToCurve25519(curve25519PK []byte, ed25519PK []byte) int {
-	support.CheckSize(curve25519PK, ScalarMultBytes(), "curve25519 public key output")
+	support.CheckSize(curve25519PK, scalarmult.ScalarMultBytes(), "curve25519 public key output")
 	support.CheckSize(ed25519PK, SignPublicKeyBytes(), "ed25519 public key")
 
 	return int(C.crypto_sign_ed25519_pk_to_curve25519(
@@ -64,7 +65,7 @@ func SignEd25519PKToCurve25519(curve25519PK []byte, ed25519PK []byte) int {
 }
 
 func SignEd25519SKToCurve25519(curve25519SK []byte, ed25519SK []byte) int {
-	support.CheckSize(curve25519SK, ScalarMultBytes(), "curve25519 secret key output")
+	support.CheckSize(curve25519SK, scalarmult.ScalarMultBytes(), "curve25519 secret key output")
 	support.CheckSize(ed25519SK, SignSecretKeyBytes(), "ed25519 secret key")
 
 	return int(C.crypto_sign_ed25519_sk_to_curve25519(
