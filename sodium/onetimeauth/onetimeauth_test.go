@@ -1,4 +1,4 @@
-package sodium
+package onetimeauth
 
 import "testing"
 

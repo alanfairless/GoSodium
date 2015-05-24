@@ -1,4 +1,4 @@
-package sodium
+package cryptosign
 
 import (
 	"bytes"

@@ -1,4 +1,4 @@
-package sodium
+package cryptosign
 
 // #include <stdio.h>
 // #include <sodium.h>

@@ -1,12 +1,14 @@
-// GoSodium is a higher level, go-ideomatic wrapper on top of the LibSodium library.
-// The functions provided here handle much of the memory allocation and error checking,
-// raising panic calls in cases where a function fails. For low-level access to the
-// full libsodium library use GoSodium.sodium, which attempts to faithfully reproduce
-// the libsodium interface.
+// GoSodium is a higher level, go-ideomatic wrapper on top of the LibSodium
+// library.  The functions provided here handle much of the memory allocation
+// and error checking, raising panic calls in cases where a function fails. For
+// low-level access to the full libsodium library use GoSodium.sodium, which
+// attempts to faithfully reproduce the libsodium interface.
 package gosodium
 
-import "github.com/redragonx/GoSodium/sodium"
+// import "github.com/redragonx/GoSodium/sodium"
 import "github.com/redragonx/GoSodium/sodium/cryptobox"
+import "github.com/redragonx/GoSodium/sodium/randombytes"
+import "github.com/redragonx/GoSodium/sodium/secretbox"
 import "fmt"
 
 type PublicKey []byte
@@ -23,7 +25,7 @@ func AllocSecretKey() SecretKey {
 }
 
 func AllocSymmetricKey() SymmetricKey {
-	return make([]byte, sodium.SecretBoxKeyBytes())
+	return make([]byte, secretbox.SecretBoxKeyBytes())
 }
 
 func NewKeyPair() (PublicKey, SecretKey) {
@@ -38,7 +40,7 @@ func NewKeyPair() (PublicKey, SecretKey) {
 
 func NewBoxNonce() Nonce {
 	nonce := make([]byte, cryptobox.BoxNonceBytes())
-	sodium.RandomBytes(nonce)
+	randombytes.RandomBytes(nonce)
 
 	return nonce
 }

@@ -1,10 +1,11 @@
-package sodium
+package scalarmult
+
+import "github.com/redragonx/GoSodium/sodium/cryptobox"
+import "github.com/redragonx/GoSodium/sodium/support"
 
 // #include <stdio.h>
 // #include <sodium.h>
 import "C"
-import "github.com/redragonx/GoSodium/sodium/cryptobox"
-import "github.com/redragonx/GoSodium/sodium/support"
 
 func ScalarMultBytes() int {
 	return int(C.crypto_scalarmult_bytes())

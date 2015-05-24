@@ -1,4 +1,4 @@
-package sodium
+package randombytes
 
 //import "fmt"
 //import "unsafe"

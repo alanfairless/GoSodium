@@ -1,4 +1,4 @@
-package sodium
+package secretbox
 
 //import "fmt"
 import "github.com/redragonx/GoSodium/sodium/support"
