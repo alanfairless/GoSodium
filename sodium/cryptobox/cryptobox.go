@@ -47,6 +47,10 @@ func BoxZeroBytes() int {
 	return int(C.crypto_box_zerobytes())
 }
 
+func primitive() string {
+	return C.GoString(C.crypto_box_primitive())
+}
+
 func BoxSeedKeyPair(pkOut []byte, skOut []byte, seed []byte) int {
 	support.CheckSize(pkOut, BoxPublicKeyBytes(), "public key")
 	support.CheckSize(skOut, BoxSecretKeyBytes(), "secret key")
@@ -128,31 +132,3 @@ func BoxOpen(messageOut []byte, cypherText []byte, nonce, pk, sk []byte) int {
 		(*C.uchar)(&pk[0]),
 		(*C.uchar)(&sk[0])))
 }
-
-func BoxEasy(cypherTextOut []byte, message []byte, nonce, pk, sk []byte) int {
-	support.CheckSize(cypherTextOut, BoxMacBytes()+len(message), "cypher text output")
-	support.CheckSize(nonce, BoxNonceBytes(), "nonce")
-	support.CheckSize(pk, BoxPublicKeyBytes(), "public key")
-	support.CheckSize(sk, BoxSecretKeyBytes(), "secret key")
-
-	return int(C.crypto_box_easy((*C.uchar)(&cypherTextOut[0]),
-		(*C.uchar)(&message[0]), (C.ulonglong)(len(message)),
-		(*C.uchar)(&nonce[0]),
-		(*C.uchar)(&pk[0]),
-		(*C.uchar)(&sk[0])))
-}
-
-func BoxOpenEasy(messageOut []byte, cypherText []byte, nonce, pk, sk []byte) int {
-	support.CheckSize(messageOut, BoxMacBytes()+len(cypherText), "message output")
-	support.CheckSize(nonce, BoxNonceBytes(), "nonce")
-	support.CheckSize(pk, BoxPublicKeyBytes(), "public key")
-	support.CheckSize(sk, BoxSecretKeyBytes(), "secret key")
-
-	return int(C.crypto_box_open_easy(
-		(*C.uchar)(&messageOut[0]),
-		(*C.uchar)(&cypherText[0]), (C.ulonglong)(len(cypherText)),
-		(*C.uchar)(&nonce[0]),
-		(*C.uchar)(&pk[0]),
-		(*C.uchar)(&sk[0])))
-}
-
