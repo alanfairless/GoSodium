@@ -44,6 +44,29 @@ func Sign(sealedMessageOut []byte, message []byte, sk []byte) int {
 		(*C.uchar)(&sk[0])))
 }
 
+func SignDetached(detachedSealOut []byte, message []byte, sk []byte) int {
+	support.CheckSize(detachedSealOut, SignBytes(), "signature output")
+	support.CheckSize(sk, SignSecretKeyBytes(), "secret key")
+
+	return int(C.crypto_sign_detached(
+		(*C.uchar)(&detachedSealOut[0]),
+		nil,
+		(*C.uchar)(&message[0]),
+		(C.ulonglong)(len(message)),
+		(*C.uchar)(&sk[0])))
+}
+
+func SignVerifyDetached(sig []byte, message []byte, pk []byte) int {
+	support.CheckSize(sig, SignBytes(), "signature input")
+	support.CheckSize(pk, SignPublicKeyBytes(), "public key")
+
+	return int(C.crypto_sign_verify_detached(
+		(*C.uchar)(&sig[0]),
+		(*C.uchar)(&message[0]),
+		(C.ulonglong)(len(message)),
+		(*C.uchar)(&pk[0])))
+}
+
 func SignOpen(messageOut []byte, sealedMessage []byte, pk []byte) int {
 	support.CheckSize(messageOut, len(sealedMessage)-SignBytes(), "message output")
 	support.CheckSize(pk, SignPublicKeyBytes(), "public key")
